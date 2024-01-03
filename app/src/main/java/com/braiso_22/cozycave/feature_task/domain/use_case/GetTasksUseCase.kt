@@ -1,7 +1,7 @@
 package com.braiso_22.cozycave.feature_task.domain.use_case
 
-import com.braiso_22.cozycave.feature_task.data.TaskRepository
-import com.braiso_22.cozycave.feature_task.data.Task
+import com.braiso_22.cozycave.feature_task.domain.TaskRepository
+import com.braiso_22.cozycave.feature_task.domain.Task
 /**
  * Use case for getting all the [Task]s.
  */
