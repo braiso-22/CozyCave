@@ -1,7 +1,7 @@
 package com.braiso_22.cozycave.feature_task.data.network.model
 
 import kotlinx.serialization.Serializable
-import com.braiso_22.cozycave.feature_task.data.Task
+import com.braiso_22.cozycave.feature_task.domain.Task
 import com.braiso_22.cozycave.feature_task.data.local.entities.LocalTask
 
 /**

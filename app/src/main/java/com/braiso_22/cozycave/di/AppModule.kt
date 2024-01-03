@@ -6,6 +6,8 @@ import com.braiso_22.cozycave.feature_task.data.TaskRepository
 import com.braiso_22.cozycave.feature_task.data.TaskRepositoryImpl
 import com.braiso_22.cozycave.feature_task.data.local.db.TaskDatabase
 import com.braiso_22.cozycave.feature_task.domain.use_case.DeleteTasksUseCase
+import com.braiso_22.cozycave.feature_task.domain.use_case.DeleteTaskUseCase
+import com.braiso_22.cozycave.feature_task.domain.use_case.GetTaskByIdUseCase
 import com.braiso_22.cozycave.feature_task.domain.use_case.GetTasksUseCase
 import dagger.Module
 import dagger.Provides
@@ -46,7 +48,7 @@ object AppModule {
     @Singleton
     fun provideDeleteTasksUseCase(
         taskRepository: TaskRepository,
-    ): DeleteTasksUseCase {
-        return DeleteTasksUseCase(taskRepository)
+    ): DeleteTaskUseCase {
+        return DeleteTaskUseCase(taskRepository)
     }
 }

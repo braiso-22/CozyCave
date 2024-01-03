@@ -3,6 +3,8 @@ package com.braiso_22.cozycave.feature_task.data
 import com.braiso_22.cozycave.feature_task.data.local.dao.TaskDao
 import com.braiso_22.cozycave.feature_task.data.local.entities.LocalTask
 import com.braiso_22.cozycave.feature_task.data.local.entities.asTask
+import com.braiso_22.cozycave.feature_task.data.local.entities.localTaskfromTask
+import com.braiso_22.cozycave.feature_task.domain.Task
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

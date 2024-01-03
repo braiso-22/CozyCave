@@ -2,8 +2,7 @@ package com.braiso_22.cozycave.feature_task.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.braiso_22.cozycave.feature_task.data.Task
-import com.braiso_22.cozycave.feature_task.data.network.model.NetworkTask
+import com.braiso_22.cozycave.feature_task.domain.Task
 
 /**
  * Entity for the [Task] table in room database.
@@ -29,6 +28,20 @@ fun LocalTask.asTask(): Task {
         frequency = frequency,
         initialDate = initialDate,
         days = days,
+    )
+}
+
+/**
+ * Extension function to convert a [Task] into a [LocalTask].
+ */
+fun localTaskfromTask(task: Task): LocalTask {
+    return LocalTask(
+        id = task.id,
+        name = task.name,
+        description = task.description,
+        frequency = task.frequency,
+        initialDate = task.initialDate,
+        days = task.days,
     )
 }
 

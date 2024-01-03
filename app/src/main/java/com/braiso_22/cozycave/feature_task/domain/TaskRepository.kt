@@ -1,6 +1,6 @@
 package com.braiso_22.cozycave.feature_task.data
 
-import com.braiso_22.cozycave.feature_task.data.Task
+import com.braiso_22.cozycave.feature_task.domain.Task
 import kotlinx.coroutines.flow.Flow
 
 /**
