@@ -51,4 +51,12 @@ object AppModule {
     ): DeleteTaskUseCase {
         return DeleteTaskUseCase(taskRepository)
     }
+
+    @Provides
+    @Singleton
+    fun provideAddTasksUseCase(
+        taskRepository: TaskRepository,
+    ): AddTaskUseCase {
+        return AddTaskUseCase(taskRepository)
+    }
 }
