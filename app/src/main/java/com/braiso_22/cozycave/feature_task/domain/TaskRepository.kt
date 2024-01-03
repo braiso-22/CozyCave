@@ -1,10 +1,10 @@
-package com.braiso_22.cozycave.feature_task.data
+package com.braiso_22.cozycave.feature_task.domain
 
 import com.braiso_22.cozycave.feature_task.domain.Task
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Repository for the [Task]s in domain layer.
+ * Repository interface to be implemented in the data layer for accessing the [Task]s
  */
 interface TaskRepository {
     /**

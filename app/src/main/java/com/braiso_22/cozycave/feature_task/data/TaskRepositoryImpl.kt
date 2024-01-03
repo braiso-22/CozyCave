@@ -5,6 +5,7 @@ import com.braiso_22.cozycave.feature_task.data.local.entities.LocalTask
 import com.braiso_22.cozycave.feature_task.data.local.entities.asTask
 import com.braiso_22.cozycave.feature_task.data.local.entities.localTaskfromTask
 import com.braiso_22.cozycave.feature_task.domain.Task
+import com.braiso_22.cozycave.feature_task.domain.TaskRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -27,7 +28,7 @@ class TaskRepositoryImpl(private val taskDao: TaskDao) : TaskRepository {
     }
 
     override suspend fun insertTask(task: Task) {
-        TODO("Not yet implemented")
+        taskDao.insertTask(localTaskfromTask(task))
     }
 
     override suspend fun deleteTask(task: Task) {
