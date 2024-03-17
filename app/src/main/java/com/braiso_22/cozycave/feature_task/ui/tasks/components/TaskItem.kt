@@ -15,10 +15,13 @@ import androidx.compose.ui.unit.dp
 import com.braiso_22.cozycave.feature_task.ui.tasks.TaskUiState
 
 @Composable
-fun TaskItem(taskUiState: TaskUiState) {
-    Card(modifier = Modifier
-        .padding(8.dp)
-        .fillMaxWidth()) {
+fun TaskItem(
+    taskUiState: TaskUiState,
+    modifier: Modifier = Modifier,
+) {
+    Card(
+        modifier = modifier
+    ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Text(text = taskUiState.name, style = MaterialTheme.typography.titleLarge)
             Spacer(modifier = Modifier.height(8.dp))
@@ -37,6 +40,9 @@ fun TaskItemPreview() {
             name = "Task 1",
             description = "Description 1",
             days = "Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday"
-        )
+        ),
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
     )
 }

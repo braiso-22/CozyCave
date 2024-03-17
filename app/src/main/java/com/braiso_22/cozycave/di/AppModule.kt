@@ -2,10 +2,10 @@ package com.braiso_22.cozycave.di
 
 import android.app.Application
 import androidx.room.Room
-import com.braiso_22.cozycave.feature_task.data.TaskRepository
 import com.braiso_22.cozycave.feature_task.data.TaskRepositoryImpl
 import com.braiso_22.cozycave.feature_task.data.local.db.TaskDatabase
-import com.braiso_22.cozycave.feature_task.domain.use_case.DeleteTasksUseCase
+import com.braiso_22.cozycave.feature_task.domain.TaskRepository
+import com.braiso_22.cozycave.feature_task.domain.use_case.AddTaskUseCase
 import com.braiso_22.cozycave.feature_task.domain.use_case.DeleteTaskUseCase
 import com.braiso_22.cozycave.feature_task.domain.use_case.GetTaskByIdUseCase
 import com.braiso_22.cozycave.feature_task.domain.use_case.GetTasksUseCase
@@ -58,5 +58,13 @@ object AppModule {
         taskRepository: TaskRepository,
     ): AddTaskUseCase {
         return AddTaskUseCase(taskRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetTaskByIdUseCase(
+        taskRepository: TaskRepository,
+    ): GetTaskByIdUseCase {
+        return GetTaskByIdUseCase(taskRepository)
     }
 }

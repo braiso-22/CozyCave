@@ -4,7 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.braiso_22.cozycave.feature_task.domain.use_case.DeleteTasksUseCase
+import com.braiso_22.cozycave.feature_task.domain.use_case.DeleteTaskUseCase
 import com.braiso_22.cozycave.feature_task.domain.use_case.GetTasksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TasksViewModel @Inject constructor(
     private val getTasksUseCase: GetTasksUseCase,
-    deleteTasksUseCase: DeleteTasksUseCase,
+    deleteTasksUseCase: DeleteTaskUseCase,
 ) : ViewModel() {
     private val _state = mutableStateOf(TasksUiState())
     val state: State<TasksUiState> = _state
@@ -27,9 +27,9 @@ class TasksViewModel @Inject constructor(
 
     private fun updateState() {
         updateStateJob?.cancel()
-        updateStateJob = getTasksUseCase().onEach { tasks ->
+        updateStateJob = getTasksUseCase().onEach { taskList ->
             _state.value = state.value.copy(
-                tasks = tasks.map {
+                tasks = taskList.map {
                     TaskUiState(
                         name = it.name,
                         description = it.description,
