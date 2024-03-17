@@ -6,15 +6,21 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.ui.Modifier
 import com.braiso_22.cozycave.feature_task.ui.tasks.TasksScreen
+import com.braiso_22.cozycave.router.AppNavigation
 import com.braiso_22.cozycave.ui.theme.CozyCaveTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val context = this
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             CozyCaveTheme {
                 // A surface container using the 'background' color from the theme
@@ -22,7 +28,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    TasksScreen()
+                    val windowSizeClass = calculateWindowSizeClass(context)
+                    AppNavigation(
+                        windowSizeClass = windowSizeClass,
+                        modifier = Modifier.fillMaxSize()
+                    )
                 }
             }
         }
