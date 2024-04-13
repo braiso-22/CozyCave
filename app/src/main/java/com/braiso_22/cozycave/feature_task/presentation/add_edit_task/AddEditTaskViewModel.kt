@@ -1,4 +1,4 @@
-package com.braiso_22.cozycave.feature_task.ui.add_edit_task
+package com.braiso_22.cozycave.feature_task.presentation.add_edit_task
 
 
 import android.os.Build
@@ -12,7 +12,7 @@ import com.braiso_22.cozycave.feature_task.domain.InvalidTaskException
 import com.braiso_22.cozycave.feature_task.domain.Task
 import com.braiso_22.cozycave.feature_task.domain.use_case.AddTaskUseCase
 import com.braiso_22.cozycave.feature_task.domain.use_case.GetTaskByIdUseCase
-import com.braiso_22.cozycave.feature_task.ui.add_edit_task.AddEditTaskEvent.*
+import com.braiso_22.cozycave.feature_task.presentation.add_edit_task.AddEditTaskEvent.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow

@@ -1,9 +1,10 @@
-package com.braiso_22.cozycave.feature_task.ui.tasks
+package com.braiso_22.cozycave.feature_task.presentation.tasks
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.braiso_22.cozycave.feature_task.domain.Task
 import com.braiso_22.cozycave.feature_task.domain.use_case.DeleteTaskUseCase
 import com.braiso_22.cozycave.feature_task.domain.use_case.GetTasksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,13 +30,7 @@ class TasksViewModel @Inject constructor(
         updateStateJob?.cancel()
         updateStateJob = getTasksUseCase().onEach { taskList ->
             _state.value = state.value.copy(
-                tasks = taskList.map {
-                    TaskUiState(
-                        name = it.name,
-                        description = it.description,
-                        days = it.days,
-                    )
-                }
+                tasks = taskList.map(Task::toUiState)
             )
         }.launchIn(viewModelScope)
     }

@@ -7,7 +7,7 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.braiso_22.cozycave.feature_task.ui.tasks.TasksScreen
+import com.braiso_22.cozycave.feature_task.presentation.tasks.TasksScreen
 
 /**
  * A composable function that sets up the navigation in the app

@@ -1,4 +1,4 @@
-package com.braiso_22.cozycave.feature_task.ui.tasks.components
+package com.braiso_22.cozycave.feature_task.presentation.tasks.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.braiso_22.cozycave.feature_task.ui.tasks.TaskUiState
+import com.braiso_22.cozycave.feature_task.presentation.tasks.TaskUiState
 
 @Composable
 fun TaskItem(

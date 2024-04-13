@@ -1,7 +1,5 @@
-package com.braiso_22.cozycave.feature_task.ui.tasks
+package com.braiso_22.cozycave.feature_task.presentation.tasks
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
@@ -15,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.braiso_22.cozycave.feature_task.ui.tasks.components.TasksList
+import com.braiso_22.cozycave.feature_task.presentation.tasks.components.TasksList
 import com.braiso_22.cozycave.ui.common.isVertical
 
 @Composable
