@@ -16,18 +16,17 @@ import com.braiso_22.cozycave.feature_task.presentation.tasks.TaskUiState
 
 @Composable
 fun TaskItem(
-    taskUiState: TaskUiState,
+    state: TaskUiState,
     modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
-            Text(text = taskUiState.name, style = MaterialTheme.typography.titleLarge)
+            Text(text = state.name, style = MaterialTheme.typography.titleLarge)
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = taskUiState.description ?: "")
+            Text(text = state.description)
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = taskUiState.days ?: "")
         }
     }
 }
@@ -39,7 +38,6 @@ fun TaskItemPreview() {
         TaskUiState(
             name = "Task 1",
             description = "Description 1",
-            days = "Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday"
         ),
         modifier = Modifier
             .padding(8.dp)

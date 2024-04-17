@@ -18,7 +18,7 @@ fun TasksList(
     LazyColumn(modifier = modifier) {
         items(tasks) { task ->
             TaskItem(
-                taskUiState = task,
+                state = task,
                 modifier = Modifier.padding(8.dp).fillMaxWidth()
             )
         }
@@ -33,12 +33,10 @@ fun TasksListPreview() {
             TaskUiState(
                 name = "Task 1",
                 description = "Description 1",
-                days = "Monday, Tuesday, Wednesday, Friday, Saturday"
             ),
             TaskUiState(
                 name = "Task 2",
                 description = "Description 2",
-                days = "Monday, Wednesday, Thursday, Saturday, Sunday"
             ),
         )
     )

@@ -9,11 +9,9 @@ import com.braiso_22.cozycave.feature_task.data.local.entities.LocalTask
  */
 @Serializable
 data class NetworkTask(
-    val id: Int? = null,
-    val name: String,
-    val description: String? = null,
-    val frequency: String,
-    val initialDate: Long,
+    val id: Int = 0,
+    val name: String = "",
+    val description: String = "",
 )
 
 /**
@@ -24,7 +22,5 @@ fun NetworkTask.asLocalTask(): LocalTask {
         id = id,
         name = name,
         description = description,
-        frequency = frequency,
-        initialDate = initialDate,
     )
 }

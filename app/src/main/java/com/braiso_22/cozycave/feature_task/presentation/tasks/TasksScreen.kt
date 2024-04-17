@@ -2,6 +2,8 @@ package com.braiso_22.cozycave.feature_task.presentation.tasks
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -53,12 +55,18 @@ fun TasksScreenContent(
                         containerColor = MaterialTheme.colorScheme.primaryContainer,
                         titleContentColor = MaterialTheme.colorScheme.primary
                     ),
+                    navigationIcon = {
+                        IconButton(onClick = onClickAddTask) {
+                            Icon(Icons.Filled.Menu, contentDescription = "Menu")
+                        }
+                    },
                 )
             },
         ) {
-
-                TasksList(tasks = tasks, modifier = Modifier.padding(it))
-
+            TasksList(
+                tasks = tasks,
+                modifier = Modifier.padding(it)
+            )
         }
     } else {
         TasksList(tasks = tasks)
