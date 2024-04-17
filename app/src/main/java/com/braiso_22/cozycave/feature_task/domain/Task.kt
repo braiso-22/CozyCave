@@ -3,13 +3,10 @@ package com.braiso_22.cozycave.feature_task.domain
 /**
  * External domain layer representation of a Task.
  */
-data class Task (
-    val id: Int? = null,
-    val name: String,
-    val description: String? = null,
-    val frequency: String,
-    val initialDate: Long,
-    val days: String? = null,
+data class Task(
+    val id: Int = 0,
+    val name: String = "",
+    val description: String = "",
 )
 
 /**
