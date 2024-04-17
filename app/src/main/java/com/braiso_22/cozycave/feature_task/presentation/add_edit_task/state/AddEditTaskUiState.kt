@@ -15,3 +15,11 @@ fun Task.toUiState(): AddEditTaskUiState {
         description = description,
     )
 }
+
+fun AddEditTaskUiState.toTask(): Task {
+    return Task(
+        id = id,
+        name = name,
+        description = description,
+    )
+}

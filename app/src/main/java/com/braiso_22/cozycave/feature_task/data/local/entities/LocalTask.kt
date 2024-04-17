@@ -9,9 +9,10 @@ import com.braiso_22.cozycave.feature_task.domain.Task
  */
 @Entity
 data class LocalTask(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
     val name: String,
-    val description: String
+    val description: String,
 )
 
 /**
@@ -19,7 +20,7 @@ data class LocalTask(
  */
 fun LocalTask.asTask(): Task {
     return Task(
-        id = id,
+        id = id ?: 0,
         name = name,
         description = description,
     )

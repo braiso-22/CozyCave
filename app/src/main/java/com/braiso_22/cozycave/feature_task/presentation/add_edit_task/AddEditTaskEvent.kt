@@ -5,4 +5,5 @@ sealed class AddEditTaskEvent {
     data class EnteredName(val name: String) : AddEditTaskEvent()
     data class EnteredDescription(val description: String) : AddEditTaskEvent()
     data object SaveTask : AddEditTaskEvent()
+    data object OnBack : AddEditTaskEvent()
 }
