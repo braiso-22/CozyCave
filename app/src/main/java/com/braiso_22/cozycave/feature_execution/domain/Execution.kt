@@ -2,8 +2,12 @@ package com.braiso_22.cozycave.feature_execution.domain
 
 import java.time.LocalDateTime
 
+/**
+ * Represents an execution of a feature.
+ */
 data class Execution(
     val id: Int = 0,
-    val dateTime: LocalDateTime = LocalDateTime.now(),
+    val startDateTime: LocalDateTime = LocalDateTime.now(),
+    val endDateTime: LocalDateTime = LocalDateTime.now(),
     val relatedId: Int,
 )
