@@ -9,7 +9,7 @@ import com.braiso_22.cozycave.feature_task.domain.use_case.AddTaskUseCase
 import com.braiso_22.cozycave.feature_task.domain.use_case.DeleteTaskUseCase
 import com.braiso_22.cozycave.feature_task.domain.use_case.GetTaskByIdUseCase
 import com.braiso_22.cozycave.feature_task.domain.use_case.GetTasksUseCase
-import com.braiso_22.cozycave.feature_task.presentation.tasks.TaskEvent.*
+import com.braiso_22.cozycave.feature_task.presentation.tasks.TasksEvent.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
@@ -46,7 +46,7 @@ class TasksViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun onEvent(event: TaskEvent) {
+    fun onEvent(event: TasksEvent) {
         when (event) {
             is Delete -> {
                 viewModelScope.launch {

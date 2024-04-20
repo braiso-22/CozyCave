@@ -46,7 +46,7 @@ fun TasksScreen(
                         actionLabel = "Undo"
                     )
                     if (result == SnackbarResult.ActionPerformed) {
-                        viewModel.onEvent(TaskEvent.UndoDeletion)
+                        viewModel.onEvent(TasksEvent.UndoDeletion)
                     }
                 }
             }
@@ -60,7 +60,7 @@ fun TasksScreen(
         onClickAddTask = onClickAddTask,
         onClickTask = onSeeDetail,
         onDeleteTask = {
-            viewModel.onEvent(TaskEvent.Delete(it))
+            viewModel.onEvent(TasksEvent.Delete(it))
         },
         onAddExecution = onAddExecution,
         onEdit = onEdit,

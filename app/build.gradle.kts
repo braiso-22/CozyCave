@@ -81,7 +81,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     // LiveData
-    implementation (libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
 
     // Coroutine Lifecycle Scopes
     implementation(libs.androidx.lifecycle.viewmodel.ktx)

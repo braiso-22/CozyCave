@@ -29,8 +29,6 @@ class AddEditTaskViewModel @Inject constructor(
     private val _state = mutableStateOf(AddEditTaskUiState())
     val state: State<AddEditTaskUiState> = _state
 
-    private var updateStateJob: Job? = null
-
     private var _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
