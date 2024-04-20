@@ -51,21 +51,30 @@ fun AppNavigation(
                 windowSizeClass = windowSizeClass,
                 modifier = Modifier.fillMaxSize(),
                 onClickAddTask = {
-                    navController.navigate(AppScreens.AddEditTask.route + 0)
+                    navController.navigate(AppScreens.AddEditTask.route + 0 + "/false")
                 },
-                onClickTask = { taskId ->
-                    navController.navigate(AppScreens.AddEditTask.route + taskId)
-                }
+                onSeeDetail = {
+                },
+                onAddExecution = {},
+                onEdit = { taskId ->
+                    navController.navigate(AppScreens.AddEditTask.route + taskId + "/true")
+                },
             )
         }
         composable(
-            route = AppScreens.AddEditTask.route + "{taskId}",
+            route = AppScreens.AddEditTask.route + "{taskId}" + "/{edit}",
             arguments = listOf(
                 navArgument(
                     name = "taskId",
                 ) {
                     type = NavType.IntType
                     defaultValue = 0
+                },
+                navArgument(
+                    name = "edit",
+                ) {
+                    type = NavType.BoolType
+                    defaultValue = false
                 }
             )
         ) {

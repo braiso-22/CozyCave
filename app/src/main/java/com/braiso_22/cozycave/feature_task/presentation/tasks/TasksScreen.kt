@@ -4,11 +4,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -20,21 +20,50 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.braiso_22.cozycave.R
 import com.braiso_22.cozycave.feature_task.presentation.tasks.components.TasksList
 import com.braiso_22.cozycave.ui.common.isVertical
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun TasksScreen(
     windowSizeClass: WindowSizeClass,
     onClickAddTask: () -> Unit,
-    onClickTask: (Int) -> Unit,
+    onSeeDetail: (Int) -> Unit,
+    onAddExecution: (Int) -> Unit,
+    onEdit: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: TasksViewModel = hiltViewModel(),
 ) {
     val state = viewModel.state.value
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest {
+            when (it) {
+                is TasksViewModel.TaskUiEvent.ShowUndoDeletion -> {
+                    val result = snackbarHostState.showSnackbar(
+                        message = "Task deleted",
+                        actionLabel = "Undo"
+                    )
+                    if (result == SnackbarResult.ActionPerformed) {
+                        viewModel.onEvent(TaskEvent.UndoDeletion)
+                    }
+                }
+            }
+        }
+    }
+
     TasksScreenContent(
         tasks = state.tasks,
+        snackbarHostState = snackbarHostState,
         windowSizeClass = windowSizeClass,
         onClickAddTask = onClickAddTask,
-        onClickTask = onClickTask,
+        onClickTask = onSeeDetail,
+        onDeleteTask = {
+            viewModel.onEvent(TaskEvent.Delete(it))
+        },
+        onAddExecution = onAddExecution,
+        onEdit = onEdit,
         modifier = modifier,
     )
 }
@@ -43,8 +72,12 @@ fun TasksScreen(
 @Composable
 fun TasksScreenContent(
     tasks: List<TaskUiState>,
+    snackbarHostState: SnackbarHostState,
     windowSizeClass: WindowSizeClass,
     onClickAddTask: () -> Unit,
+    onAddExecution: (Int) -> Unit,
+    onEdit: (Int) -> Unit,
+    onDeleteTask: (Int) -> Unit,
     onClickTask: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -68,14 +101,27 @@ fun TasksScreenContent(
                     },
                 )
             },
+            snackbarHost = {
+                SnackbarHost(hostState = snackbarHostState)
+            },
         ) {
             TasksList(
                 tasks = tasks,
+                onClickEditTask = onEdit,
+                onClickNewExecution = onAddExecution,
+                onClickDelete = onDeleteTask,
+                onClickSeeDetail = onClickTask,
                 modifier = Modifier.padding(it)
             )
         }
     } else {
-        TasksList(tasks = tasks)
+        TasksList(
+            tasks = tasks,
+            onClickEditTask = onClickTask,
+            onClickNewExecution = onAddExecution,
+            onClickDelete = onDeleteTask,
+            onClickSeeDetail = onEdit,
+        )
     }
 }
 
@@ -84,16 +130,32 @@ fun TasksScreenContent(
 fun TasksScreenContentPreview(dpSize: DpSize) {
     val tasks = remember {
         mutableStateListOf(
-            TaskUiState("Task 1", "Description 1"),
-            TaskUiState("Task 2", "Description 2"),
-            TaskUiState("Task 3", "Description 3"),
+            TaskUiState(
+                id = 1,
+                name = "Task 1",
+                description = "Description 1",
+            ),
+            TaskUiState(
+                id = 2,
+                name = "Task 2",
+                description = "Description 2",
+            ),
+            TaskUiState(
+                id = 3,
+                name = "Task 3",
+                description = "Description 3",
+            ),
         )
     }
     TasksScreenContent(
         tasks = tasks,
         windowSizeClass = WindowSizeClass.calculateFromSize(dpSize),
+        snackbarHostState = SnackbarHostState(),
         onClickAddTask = {},
         onClickTask = {},
+        onDeleteTask = {},
+        onEdit = {},
+        onAddExecution = {},
         modifier = Modifier.fillMaxSize()
     )
 }

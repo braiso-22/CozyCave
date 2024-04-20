@@ -2,4 +2,6 @@
     <string name="app_name">CozyCave</string>
     <string name="add_new_task">Add new task</string>
     <string name="back">Go back</string>
+    <string name="edit_task">Edit this task</string>
+    <string name="save">Save</string>
 </resources>

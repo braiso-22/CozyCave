@@ -24,7 +24,7 @@ import javax.inject.Inject
 class AddEditTaskViewModel @Inject constructor(
     private val addTaskUseCase: AddTaskUseCase,
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
-    savedStateHandle: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _state = mutableStateOf(AddEditTaskUiState())
     val state: State<AddEditTaskUiState> = _state
@@ -43,6 +43,11 @@ class AddEditTaskViewModel @Inject constructor(
                     getTaskByIdUseCase(taskId)?.also {
                         currentTaskId = it.id
                         _state.value = it.toUiState()
+                    }
+                    savedStateHandle.get<Boolean>("edit").let { isEdit ->
+                        if (isEdit != null) {
+                            _state.value = _state.value.copy(isEditTask = isEdit)
+                        }
                     }
                 }
             }
