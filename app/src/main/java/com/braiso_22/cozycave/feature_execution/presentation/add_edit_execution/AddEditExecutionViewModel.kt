@@ -4,10 +4,17 @@ package com.braiso_22.cozycave.feature_execution.presentation.add_edit_execution
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.braiso_22.cozycave.R
+import com.braiso_22.cozycave.feature_execution.domain.use_case.AddExecutionUseCase
+import com.braiso_22.cozycave.feature_execution.domain.use_case.GetExecutionByIdUseCase
 import com.braiso_22.cozycave.feature_execution.domain.use_case.GetExecutionsByRelatedIdUseCase
 import com.braiso_22.cozycave.feature_execution.presentation.add_edit_execution.state.AddEditExecutionUiState
+import com.braiso_22.cozycave.feature_execution.presentation.add_edit_execution.state.asExecution
+import com.braiso_22.cozycave.feature_execution.presentation.add_edit_execution.state.toUiState
+import com.braiso_22.cozycave.feature_task.presentation.add_edit_task.state.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -18,7 +25,9 @@ const val TAG = "AddEditExecutionViewModel"
 
 @HiltViewModel
 class AddEditExecutionViewModel @Inject constructor(
-    private val getExecutionByRelatedIdUseCase: GetExecutionsByRelatedIdUseCase,
+    private val getExecutionByIdUseCase: GetExecutionByIdUseCase,
+    private val addExecutionUseCase: AddExecutionUseCase,
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _state = mutableStateOf(AddEditExecutionUiState())
@@ -29,23 +38,35 @@ class AddEditExecutionViewModel @Inject constructor(
 
     init {
         Log.i(TAG, "$TAG created")
-        viewModelScope.launch {
-
+        savedStateHandle.get<Int>("executionId").let { executionId ->
+            viewModelScope.launch {
+                val execution = getExecutionByIdUseCase(executionId ?: return@launch)
+                _state.value = execution.toUiState()
+            }
+        }
+        savedStateHandle.get<Boolean>("edit").let { isEdit ->
+            _state.value = _state.value.copy(
+                isEditExecution = isEdit ?: return@let
+            )
+        }
+        savedStateHandle.get<Int>("relatedId").let { id ->
+            _state.value = _state.value.copy(relatedId = id ?: return@let)
         }
     }
 
     fun onEvent(changeState: AddEditExecutionEvent) {
         when (changeState) {
             is AddEditExecutionEvent.ChangeState -> {
-                _state.value = changeState.state.copy(
-
-                )
+                _state.value = changeState.state
             }
 
             AddEditExecutionEvent.Save -> {
                 Log.i(TAG, "Clicked on save button")
                 viewModelScope.launch {
-
+                    addExecutionUseCase(
+                        _state.value.asExecution()
+                    )
+                    _eventFlow.emit(UiEvent.SavedCloseScreen(R.string.execution_saved_correctly))
                 }
             }
 

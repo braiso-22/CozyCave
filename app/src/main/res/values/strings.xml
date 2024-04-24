@@ -10,4 +10,6 @@
     <string name="start_time">Start time</string>
     <string name="start_date">Start date</string>
     <string name="accept">Accept</string>
+    <string name="add_execution">Add execution</string>
+    <string name="execution_saved_correctly">Execution saved correctly</string>
 </resources>

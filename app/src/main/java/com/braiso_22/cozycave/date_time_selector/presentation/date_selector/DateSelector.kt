@@ -32,8 +32,8 @@ fun DateSelector(
     DateSelectorComponent(
         date = date.value,
         setDate = {
-            date.value = it
             setState(date.value)
+            date.value = it
         },
         modifier = modifier
     )
@@ -85,9 +85,11 @@ private fun DateSelectorComponent(
 @OptIn(ExperimentalMaterial3Api::class)
 private fun DatePickerState.getDateInString(): String {
     val valueInMillis = selectedDateMillis?.absoluteValue ?: 0
-    val value = valueInMillis.div(86_400_000).toString()
+    val value = valueInMillis.div(86_400_000)
     return try {
-        LocalDate.parse(value).toString()
+        LocalDate.ofEpochDay(value).format(
+            DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        )
     } catch (e: Exception) {
         ""
     }

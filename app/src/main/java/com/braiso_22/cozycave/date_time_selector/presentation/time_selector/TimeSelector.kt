@@ -65,7 +65,9 @@ private fun DateTimeSelectorContent(
                 TextButton(
                     onClick = {
                         isTimeOpen = false
-                        setTime("${timePickerState.hour}:${timePickerState.minute}")
+                        setTime(LocalTime.of(timePickerState.hour, timePickerState.minute).format(
+                            DateTimeFormatter.ofPattern("HH:mm")
+                        ))
                     }
                 ) {
                     Text(stringResource(R.string.accept))

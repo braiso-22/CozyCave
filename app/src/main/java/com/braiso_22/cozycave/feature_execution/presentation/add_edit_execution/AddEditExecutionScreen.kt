@@ -12,6 +12,7 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
@@ -20,16 +21,38 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.braiso_22.cozycave.R
 import com.braiso_22.cozycave.feature_execution.presentation.add_edit_execution.components.DateTimeRow
 import com.braiso_22.cozycave.feature_execution.presentation.add_edit_execution.state.AddEditExecutionUiState
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun AddEditExecutionScreen(
     windowSizeClass: WindowSizeClass,
+    onMessage: (String) -> Unit,
+    onClickBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: AddEditExecutionViewModel = hiltViewModel(),
 ) {
     val state = viewModel.state.value
+    val context = LocalContext.current
 
-    val snackbarHostState = remember { SnackbarHostState() }
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                AddEditExecutionViewModel.UiEvent.CloseScreen -> {
+                    onClickBack()
+                }
+
+                is AddEditExecutionViewModel.UiEvent.SavedCloseScreen -> {
+                    onMessage(context.getString(event.message))
+                    onClickBack()
+                }
+
+                is AddEditExecutionViewModel.UiEvent.ShowSnackbar -> {
+                    onMessage(context.getString(event.message))
+                }
+            }
+        }
+    }
+
     AddEditExecutionScreenContent(
         state = state,
         setState = {
@@ -37,8 +60,11 @@ fun AddEditExecutionScreen(
                 AddEditExecutionEvent.ChangeState(it)
             )
         },
+        onClickBack = onClickBack,
+        onAddExecution = {
+            viewModel.onEvent(AddEditExecutionEvent.Save)
+        },
         windowSizeClass = windowSizeClass,
-        snackbarHostState = snackbarHostState,
         modifier = modifier,
     )
 }
@@ -48,7 +74,8 @@ fun AddEditExecutionScreen(
 fun AddEditExecutionScreenContent(
     state: AddEditExecutionUiState,
     setState: (AddEditExecutionUiState) -> Unit,
-    snackbarHostState: SnackbarHostState,
+    onClickBack: () -> Unit,
+    onAddExecution: () -> Unit,
     windowSizeClass: WindowSizeClass,
     modifier: Modifier = Modifier,
 ) {
@@ -56,13 +83,13 @@ fun AddEditExecutionScreenContent(
         modifier = modifier,
         topBar = {
             TopAppBar(
-                title = { Text("Tasks") },
+                title = { Text(stringResource(R.string.add_execution)) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary
                 ),
                 navigationIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = onClickBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Go back"
@@ -71,60 +98,45 @@ fun AddEditExecutionScreenContent(
                 }
             )
         },
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
-        },
     ) { padding ->
         Column(
-            modifier = Modifier
-                .padding(padding)
-                .padding(16.dp)
+            modifier = Modifier.padding(padding)
         ) {
-            var alreadyCompleted by remember {
-                mutableStateOf(false)
-            }
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { alreadyCompleted = !alreadyCompleted }
+            Column(
+                modifier = Modifier.padding(8.dp)
             ) {
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            setState(
+                                state.copy(
+                                    isFinished = !state.isFinished
+                                )
+                            )
+                        }
                 ) {
-                    Icon(imageVector = Icons.Outlined.WatchLater, "")
-                    Spacer(modifier = Modifier.padding(8.dp))
-                    Text("Already completed")
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Icon(imageVector = Icons.Outlined.WatchLater, "")
+                        Spacer(modifier = Modifier.padding(8.dp))
+                        Text("Already completed")
+                    }
+                    Switch(
+                        checked = state.isFinished,
+                        onCheckedChange = {
+                            setState(
+                                state.copy(
+                                    isFinished = !state.isFinished
+                                )
+                            )
+                        }
+                    )
                 }
-                Switch(
-                    checked = alreadyCompleted,
-                    onCheckedChange = { alreadyCompleted = !alreadyCompleted }
-                )
-            }
-            Spacer(modifier = Modifier.padding(8.dp))
-            DateTimeRow(
-                date = state.startDate,
-                setDate = {
-                    setState(
-                        state.copy(
-                            startDate = it
-                        )
-                    )
-                },
-                time = state.startTime,
-                setTime = {
-                    setState(
-                        state.copy(
-                            startTime = it
-                        )
-                    )
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-            if (alreadyCompleted) {
                 Spacer(modifier = Modifier.padding(8.dp))
                 DateTimeRow(
                     date = state.startDate,
@@ -143,16 +155,39 @@ fun AddEditExecutionScreenContent(
                             )
                         )
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                 )
-            }
-            Button(
-                onClick = { /*TODO*/ },
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(text = stringResource(id = R.string.save))
+                if (state.isFinished) {
+                    Spacer(modifier = Modifier.padding(8.dp))
+                    DateTimeRow(
+                        date = state.startDate,
+                        setDate = {
+                            setState(
+                                state.copy(
+                                    startDate = it
+                                )
+                            )
+                        },
+                        time = state.startTime,
+                        setTime = {
+                            setState(
+                                state.copy(
+                                    startTime = it
+                                )
+                            )
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+                Button(
+                    onClick = onAddExecution,
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth()
+                ) {
+                    Text(text = stringResource(id = R.string.save))
+                }
             }
         }
     }
@@ -170,7 +205,8 @@ fun AddEditExecutionScreenContentPreview(dpSize: DpSize) {
         state = state.value,
         setState = {},
         windowSizeClass = WindowSizeClass.calculateFromSize(dpSize),
-        snackbarHostState = SnackbarHostState(),
+        onClickBack = {},
+        onAddExecution = {},
         modifier = Modifier.fillMaxSize()
     )
 }

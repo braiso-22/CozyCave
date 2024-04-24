@@ -1,6 +1,10 @@
 package com.braiso_22.cozycave.router
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,6 +17,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.braiso_22.cozycave.feature_execution.presentation.add_edit_execution.AddEditExecutionScreen
 import com.braiso_22.cozycave.feature_task.presentation.add_edit_task.AddEditTaskScreen
 import com.braiso_22.cozycave.feature_task.presentation.tasks.TasksScreen
 import com.braiso_22.cozycave.router.NavigationViewModel.UiEvent
@@ -40,56 +45,97 @@ fun AppNavigation(
             }
         }
     }
-
-    NavHost(
-        navController = navController,
-        startDestination = AppScreens.Tasks.route,
-        modifier = modifier,
-    ) {
-        composable(AppScreens.Tasks.route) {
-            TasksScreen(
-                windowSizeClass = windowSizeClass,
-                modifier = Modifier.fillMaxSize(),
-                onClickAddTask = {
-                    navController.navigate(AppScreens.AddEditTask.route + 0 + "/false")
-                },
-                onSeeDetail = {
-                },
-                onAddExecution = {},
-                onEdit = { taskId ->
-                    navController.navigate(AppScreens.AddEditTask.route + taskId + "/true")
-                },
-            )
-        }
-        composable(
-            route = AppScreens.AddEditTask.route + "{taskId}" + "/{edit}",
-            arguments = listOf(
-                navArgument(
-                    name = "taskId",
-                ) {
-                    type = NavType.IntType
-                    defaultValue = 0
-                },
-                navArgument(
-                    name = "edit",
-                ) {
-                    type = NavType.BoolType
-                    defaultValue = false
-                }
-            )
+    Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        modifier = modifier
+    ) { padding ->
+        NavHost(
+            navController = navController,
+            startDestination = AppScreens.Tasks.route,
+            modifier = Modifier.padding(padding),
         ) {
-            AddEditTaskScreen(
-                onBack = {
-                    navController.popBackStack()
-                },
-                onUiMessage = { message ->
-                    navigationViewModel.onEvent(
-                        UiEvent.ShowSnackBar(message)
-                    )
-                },
-                modifier = Modifier.fillMaxSize(),
-            )
+            composable(AppScreens.Tasks.route) {
+                TasksScreen(
+                    windowSizeClass = windowSizeClass,
+                    modifier = Modifier.fillMaxSize(),
+                    onClickAddTask = {
+                        navController.navigate(AppScreens.AddEditTask.route + 0 + "/false")
+                    },
+                    onSeeDetail = {
+
+                    },
+                    onAddExecution = { taskId ->
+                        navController.navigate(AppScreens.AddEditExecution.route + taskId + "/true" + "/0")
+                    },
+                    onEdit = { taskId ->
+                        navController.navigate(AppScreens.AddEditTask.route + taskId + "/true")
+                    },
+                )
+            }
+            composable(
+                route = AppScreens.AddEditTask.route + "{taskId}" + "/{edit}",
+                arguments = listOf(
+                    navArgument(
+                        name = "taskId",
+                    ) {
+                        type = NavType.IntType
+                        defaultValue = 0
+                    },
+                    navArgument(
+                        name = "edit",
+                    ) {
+                        type = NavType.BoolType
+                        defaultValue = false
+                    }
+                )
+            ) {
+                AddEditTaskScreen(
+                    onBack = {
+                        navController.popBackStack()
+                    },
+                    onUiMessage = { message ->
+                        navigationViewModel.onEvent(
+                            UiEvent.ShowSnackBar(message)
+                        )
+                    },
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
+
+            composable(
+                route = AppScreens.AddEditExecution.route + "{relatedId}" + "/{edit}" + "/{executionId}",
+                arguments = listOf(
+                    navArgument(
+                        name = "relatedId",
+                    ) {
+                        type = NavType.IntType
+                        defaultValue = 0
+                    },
+                    navArgument(
+                        name = "edit",
+                    ) {
+                        type = NavType.BoolType
+                        defaultValue = false
+                    },
+                    navArgument(
+                        name = "executionId",
+                    ) {
+                        type = NavType.IntType
+                        defaultValue = 0
+                    }
+                )
+            ) {
+                AddEditExecutionScreen(
+                    windowSizeClass = windowSizeClass,
+                    onMessage = {
+                        navigationViewModel.onEvent(UiEvent.ShowSnackBar(it))
+                    },
+                    onClickBack = {
+                        navController.popBackStack()
+                    },
+                    modifier = modifier.fillMaxSize()
+                )
+            }
         }
     }
-
 }

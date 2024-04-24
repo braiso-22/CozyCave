@@ -36,16 +36,14 @@ class AddEditTaskViewModel @Inject constructor(
 
     init {
         savedStateHandle.get<Int>("taskId").let { taskId ->
-            if (taskId != null) {
-                viewModelScope.launch {
-                    getTaskByIdUseCase(taskId)?.also {
-                        currentTaskId = it.id
-                        _state.value = it.toUiState()
-                    }
-                    savedStateHandle.get<Boolean>("edit").let { isEdit ->
-                        if (isEdit != null) {
-                            _state.value = _state.value.copy(isEditTask = isEdit)
-                        }
+            viewModelScope.launch {
+                val task = getTaskByIdUseCase(taskId ?: return@launch)
+                currentTaskId = task.id
+                _state.value = task.toUiState()
+
+                savedStateHandle.get<Boolean>("edit").let { isEdit ->
+                    if (isEdit != null) {
+                        _state.value = _state.value.copy(isEditTask = isEdit)
                     }
                 }
             }
