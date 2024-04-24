@@ -23,9 +23,9 @@ class TaskRepositoryImpl(private val taskDao: TaskDao) : TaskRepository {
         }
     }
 
-    override suspend fun getTaskById(id: Int): Task? {
+    override suspend fun getTaskById(id: Int): Task {
         val task = taskDao.getTask(id)
-        return task?.asTask()
+        return task?.asTask() ?: Task()
     }
 
     override suspend fun insertTask(task: Task) {

@@ -25,4 +25,8 @@ class ExecutionRepositoryFake : ExecutionRepository {
             list.filter { it.relatedId == id }
         }
     }
+
+    override suspend fun getExecutionById(id: Int): Execution {
+        TODO("Not yet implemented")
+    }
 }

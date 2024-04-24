@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import java.time.LocalDateTime
 
 /**
  * [Execution]s Repository implementation using the offline first approach.
@@ -26,5 +27,14 @@ class ExecutionRepositoryImpl(private val dao: ExecutionDao) : ExecutionReposito
         return dao.getExecutionsByRelatedId(id).map {
             it.map(LocalExecution::asExecution)
         }
+    }
+
+    override suspend fun getExecutionById(id: Int): Execution {
+        val localExecution: LocalExecution? = dao.getExecutionById(id)
+        return localExecution?.asExecution() ?: Execution(
+            startDateTime = LocalDateTime.now(),
+            endDateTime = LocalDateTime.now(),
+            relatedId = 0
+        )
     }
 }

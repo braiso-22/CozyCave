@@ -17,4 +17,7 @@ interface ExecutionDao {
 
     @Query("SELECT * FROM LocalExecution WHERE relatedId = :id")
     fun getExecutionsByRelatedId(id: Int): Flow<List<LocalExecution>>
+
+    @Query("SELECT * FROM LocalExecution WHERE id = :id LIMIT 1")
+    suspend fun getExecutionById(id: Int): LocalExecution?
 }
