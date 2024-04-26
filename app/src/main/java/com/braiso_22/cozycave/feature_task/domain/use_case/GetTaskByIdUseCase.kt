@@ -12,5 +12,5 @@ import com.braiso_22.cozycave.feature_task.domain.TaskRepository
 class GetTaskByIdUseCase(
     private val taskRepository: TaskRepository,
 ) {
-    suspend operator fun invoke(id: Int) = taskRepository.getTaskById(id)
+    suspend operator fun invoke(id: Int): Task = taskRepository.getTaskById(id)
 }

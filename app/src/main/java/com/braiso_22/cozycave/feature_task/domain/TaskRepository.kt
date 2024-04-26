@@ -14,7 +14,7 @@ interface TaskRepository {
     /**
      * Returns a [Task] by its id.
      */
-    suspend fun getTaskById(id: Int): Task?
+    suspend fun getTaskById(id: Int): Task
     /**
      * Inserts a [Task] into the database.
      */

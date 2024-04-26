@@ -26,7 +26,6 @@ fun AddEditTaskScreen(
     viewModel: AddEditTaskViewModel = hiltViewModel(),
 ) {
     val state = viewModel.state.value
-
     LaunchedEffect(key1 = Unit) {
         viewModel.eventFlow.collectLatest {
             when (it) {
@@ -40,7 +39,6 @@ fun AddEditTaskScreen(
     }
 
     AddEditTask(
-        modifier = modifier,
         state = state,
         setName = {
             viewModel.onEvent(
@@ -58,6 +56,7 @@ fun AddEditTaskScreen(
             )
         },
         onBack = onBack,
+        modifier = modifier,
     )
 }
 
@@ -91,7 +90,17 @@ fun AddEditTask(
         modifier = modifier,
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.add_new_task)) },
+                title = {
+                    Text(
+                        stringResource(
+                            if (state.isEditTask) {
+                                R.string.edit_task
+                            } else {
+                                R.string.add_new_task
+                            }
+                        )
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary
@@ -113,17 +122,19 @@ fun AddEditTask(
         ) {
             DataTextFieldColum(
                 state = state,
-                setName = { setName(it) },
-                setDescription = { setDescription(it) },
-                modifier = Modifier.fillMaxWidth(),
+                setName = setName,
+                setDescription = setDescription,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
             )
             Button(
                 onClick = onSave,
                 modifier = Modifier
-                    .padding(top = 8.dp)
+                    .padding(horizontal = 16.dp)
                     .fillMaxWidth(),
             ) {
-                Text(text = "Save")
+                Text(text = stringResource(R.string.save))
             }
         }
     }

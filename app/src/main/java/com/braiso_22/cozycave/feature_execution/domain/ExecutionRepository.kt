@@ -16,4 +16,9 @@ interface ExecutionRepository {
      * Returns a [Flow] of all the [Execution]s related to a specific id.
      */
     fun getExecutionsByRelatedId(id: Int): Flow<List<Execution>>
+
+    /**
+     * Returns an [Execution] by its id.
+     */
+    suspend fun getExecutionById(id: Int): Execution
 }
