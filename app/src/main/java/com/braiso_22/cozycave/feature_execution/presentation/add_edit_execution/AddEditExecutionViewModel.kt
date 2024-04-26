@@ -40,17 +40,20 @@ class AddEditExecutionViewModel @Inject constructor(
         Log.i(TAG, "$TAG created")
         savedStateHandle.get<Int>("executionId").let { executionId ->
             viewModelScope.launch {
-                val execution = getExecutionByIdUseCase(executionId ?: return@launch)
+                val execution = getExecutionByIdUseCase(
+                    executionId ?: return@launch
+                )
                 _state.value = execution.toUiState()
+                savedStateHandle.get<Boolean>("edit").let { isEdit ->
+                    _state.value = _state.value.copy(
+                        isEditExecution = isEdit ?: return@launch
+                    )
+                }
+                savedStateHandle.get<Int>("relatedId").let { id ->
+                    _state.value = _state.value.copy(relatedId = id ?: return@launch)
+                }
+
             }
-        }
-        savedStateHandle.get<Boolean>("edit").let { isEdit ->
-            _state.value = _state.value.copy(
-                isEditExecution = isEdit ?: return@let
-            )
-        }
-        savedStateHandle.get<Int>("relatedId").let { id ->
-            _state.value = _state.value.copy(relatedId = id ?: return@let)
         }
     }
 
