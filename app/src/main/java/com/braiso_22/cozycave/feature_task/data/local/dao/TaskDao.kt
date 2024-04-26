@@ -1,9 +1,6 @@
 package com.braiso_22.cozycave.feature_task.data.local.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Query
-import androidx.room.Upsert
+import androidx.room.*
 import com.braiso_22.cozycave.feature_task.data.local.entities.LocalTask
 import kotlinx.coroutines.flow.Flow
 
@@ -18,7 +15,7 @@ interface TaskDao {
     @Query("SELECT * FROM LocalTask WHERE id = :id")
     suspend fun getTask(id: Int): LocalTask?
 
-    @Upsert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTask(task: LocalTask)
 
     @Delete
