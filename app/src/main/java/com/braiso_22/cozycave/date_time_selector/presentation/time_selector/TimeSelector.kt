@@ -6,14 +6,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.braiso_22.cozycave.R
-import com.braiso_22.cozycave.date_time_selector.presentation.components.TimePickerDialog
+import com.braiso_22.cozycave.date_time_selector.presentation.time_selector.comps.TimePickerDialogWrapper
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-
 
 @Composable
 fun TimeSelector(
@@ -21,68 +18,44 @@ fun TimeSelector(
     setState: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val time = remember {
-        mutableStateOf(
-            try {
-                LocalTime.parse(state)
-            } catch (e: Exception) {
-                LocalTime.now()
-            }.format(
-                DateTimeFormatter.ofPattern("HH:mm")
-            )
-        )
+    val time = try {
+        LocalTime.parse(state)
+    } catch (e: Exception) {
+        LocalTime.now()
     }
 
     DateTimeSelectorContent(
-        time = time.value,
+        time = time,
         setTime = {
-            time.value = it
-            setState(time.value)
+            setState(
+                it.format(DateTimeFormatter.ofPattern("HH:mm"))
+            )
         },
         modifier = modifier
     )
 }
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DateTimeSelectorContent(
-    time: String,
-    setTime: (String) -> Unit,
+    time: LocalTime,
+    setTime: (LocalTime) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var isTimeOpen by remember {
         mutableStateOf(false)
     }
-    val timePickerState = rememberTimePickerState(
-        is24Hour = true
+
+    TimePickerDialogWrapper(
+        isVisible = isTimeOpen,
+        setVisible = { isTimeOpen = it },
+        state = TimeState(time.hour, time.minute),
+        setState = {
+            setTime(LocalTime.of(it.hour, it.minute))
+        }
     )
-    if (isTimeOpen) {
-        TimePickerDialog(
-            state = timePickerState,
-            onDismissRequest = { isTimeOpen = false },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        isTimeOpen = false
-                        setTime(LocalTime.of(timePickerState.hour, timePickerState.minute).format(
-                            DateTimeFormatter.ofPattern("HH:mm")
-                        ))
-                    }
-                ) {
-                    Text(stringResource(R.string.accept))
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { isTimeOpen = false }) {
-                    Text(stringResource(R.string.cancel))
-                }
-            }
-        )
-    }
 
     Text(
-        text = time,
+        text = time.format(DateTimeFormatter.ofPattern("HH:mm")),
         modifier = modifier.clickable {
             isTimeOpen = true
         }

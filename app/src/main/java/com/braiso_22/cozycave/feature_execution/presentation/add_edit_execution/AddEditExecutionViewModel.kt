@@ -27,7 +27,7 @@ const val TAG = "AddEditExecutionViewModel"
 class AddEditExecutionViewModel @Inject constructor(
     private val getExecutionByIdUseCase: GetExecutionByIdUseCase,
     private val addExecutionUseCase: AddExecutionUseCase,
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _state = mutableStateOf(AddEditExecutionUiState())
@@ -62,6 +62,12 @@ class AddEditExecutionViewModel @Inject constructor(
 
             AddEditExecutionEvent.Save -> {
                 Log.i(TAG, "Clicked on save button")
+                if (!state.value.isFinished) {
+                    _state.value = _state.value.copy(
+                        endTime = _state.value.startTime,
+                        endDate = _state.value.startDate
+                    )
+                }
                 viewModelScope.launch {
                     addExecutionUseCase(
                         _state.value.asExecution()

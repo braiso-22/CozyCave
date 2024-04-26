@@ -1,4 +1,4 @@
-package com.braiso_22.cozycave.date_time_selector.presentation.components
+package com.braiso_22.cozycave.date_time_selector.presentation.time_selector.comps
 
 
 import androidx.compose.foundation.background

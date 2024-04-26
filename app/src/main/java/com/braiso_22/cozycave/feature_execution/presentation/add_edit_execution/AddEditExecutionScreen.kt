@@ -161,19 +161,19 @@ fun AddEditExecutionScreenContent(
                 if (state.isFinished) {
                     Spacer(modifier = Modifier.padding(8.dp))
                     DateTimeRow(
-                        date = state.startDate,
+                        date = state.endDate,
                         setDate = {
                             setState(
                                 state.copy(
-                                    startDate = it
+                                    endDate = it
                                 )
                             )
                         },
-                        time = state.startTime,
+                        time = state.endTime,
                         setTime = {
                             setState(
                                 state.copy(
-                                    startTime = it
+                                    endTime = it
                                 )
                             )
                         },
