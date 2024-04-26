@@ -27,7 +27,7 @@ fun Execution.toUiState() = AddEditExecutionUiState(
 
 fun LocalDateTime.toFormatedDate(): String {
     return this.format(
-        DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        DateTimeFormatter.ofPattern("dd/MM/yyyy")
     )
 }
 
@@ -40,11 +40,11 @@ fun LocalDateTime.toFormatedTime(): String {
 fun AddEditExecutionUiState.asExecution(): Execution {
     return Execution(
         startDateTime = LocalDateTime.of(
-            LocalDate.parse(startDate, DateTimeFormatter.ofPattern("dd-MM-yyyy")),
+            LocalDate.parse(startDate, DateTimeFormatter.ofPattern("dd/MM/yyyy")),
             LocalTime.parse(startTime)
         ),
         endDateTime = LocalDateTime.of(
-            LocalDate.parse(endDate, DateTimeFormatter.ofPattern("dd-MM-yyyy")),
+            LocalDate.parse(endDate, DateTimeFormatter.ofPattern("dd/MM/yyyy")),
             LocalTime.parse(endTime)
         ),
         relatedId = relatedId,

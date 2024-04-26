@@ -11,10 +11,7 @@ import com.braiso_22.cozycave.feature_execution.domain.use_case.GetExecutionsByR
 import com.braiso_22.cozycave.feature_task.data.TaskRepositoryImpl
 import com.braiso_22.cozycave.feature_task.data.local.dao.TaskDao
 import com.braiso_22.cozycave.feature_task.domain.TaskRepository
-import com.braiso_22.cozycave.feature_task.domain.use_case.AddTaskUseCase
-import com.braiso_22.cozycave.feature_task.domain.use_case.DeleteTaskUseCase
-import com.braiso_22.cozycave.feature_task.domain.use_case.GetTaskByIdUseCase
-import com.braiso_22.cozycave.feature_task.domain.use_case.GetTasksUseCase
+import com.braiso_22.cozycave.feature_task.domain.use_case.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -106,5 +103,13 @@ object AppModule {
         repository: ExecutionRepository,
     ): GetExecutionByIdUseCase = GetExecutionByIdUseCase(repository)
 
-
+    @Provides
+    @Singleton
+    fun provideGetTaskWithExecutionsUseCase(
+        getTaskByIdUseCase: GetTaskByIdUseCase,
+        getExecutionsByRelatedIdUseCase: GetExecutionsByRelatedIdUseCase,
+    ): GetTaskWithExecutionsUseCase = GetTaskWithExecutionsUseCase(
+        getTaskByIdUseCase,
+        getExecutionsByRelatedIdUseCase
+    )
 }
