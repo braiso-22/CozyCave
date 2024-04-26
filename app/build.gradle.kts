@@ -81,7 +81,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     // LiveData
-    implementation (libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
 
     // Coroutine Lifecycle Scopes
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -99,7 +99,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.material3.window.size)
-
+    implementation(libs.androidx.material.icons.extended)
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -2,4 +2,14 @@
     <string name="app_name">CozyCave</string>
     <string name="add_new_task">Add new task</string>
     <string name="back">Go back</string>
+    <string name="edit_task">Edit this task</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="end_time">End time</string>
+    <string name="end_date">End date</string>
+    <string name="start_time">Start time</string>
+    <string name="start_date">Start date</string>
+    <string name="accept">Accept</string>
+    <string name="add_execution">Add execution</string>
+    <string name="execution_saved_correctly">Execution saved correctly</string>
 </resources>

@@ -6,6 +6,7 @@ data class AddEditTaskUiState(
     val id: Int = 0,
     val name: String = "",
     val description: String = "",
+    val isEditTask: Boolean = false
 )
 
 fun Task.toUiState(): AddEditTaskUiState {

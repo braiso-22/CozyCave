@@ -20,7 +20,7 @@ data class LocalTask(
  */
 fun LocalTask.asTask(): Task {
     return Task(
-        id = id ?: 0,
+        id = id,
         name = name,
         description = description,
     )

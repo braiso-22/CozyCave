@@ -24,12 +24,10 @@ import javax.inject.Inject
 class AddEditTaskViewModel @Inject constructor(
     private val addTaskUseCase: AddTaskUseCase,
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
-    savedStateHandle: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _state = mutableStateOf(AddEditTaskUiState())
     val state: State<AddEditTaskUiState> = _state
-
-    private var updateStateJob: Job? = null
 
     private var _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
@@ -38,11 +36,14 @@ class AddEditTaskViewModel @Inject constructor(
 
     init {
         savedStateHandle.get<Int>("taskId").let { taskId ->
-            if (taskId != null) {
-                viewModelScope.launch {
-                    getTaskByIdUseCase(taskId)?.also {
-                        currentTaskId = it.id
-                        _state.value = it.toUiState()
+            viewModelScope.launch {
+                val task = getTaskByIdUseCase(taskId ?: return@launch)
+                currentTaskId = task.id
+                _state.value = task.toUiState()
+
+                savedStateHandle.get<Boolean>("edit").let { isEdit ->
+                    if (isEdit != null) {
+                        _state.value = _state.value.copy(isEditTask = isEdit)
                     }
                 }
             }
