@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.braiso_22.cozycave.feature_execution.presentation.add_edit_execution.AddEditExecutionScreen
 import com.braiso_22.cozycave.feature_task.presentation.add_edit_task.AddEditTaskScreen
+import com.braiso_22.cozycave.feature_task.presentation.show_task_detail.TaskDetailScreen
 import com.braiso_22.cozycave.feature_task.presentation.tasks.TasksScreen
 import com.braiso_22.cozycave.router.NavigationViewModel.UiEvent
 import kotlinx.coroutines.flow.collectLatest
@@ -61,8 +62,8 @@ fun AppNavigation(
                     onClickAddTask = {
                         navController.navigate(AppScreens.AddEditTask.route + 0 + "/false")
                     },
-                    onSeeDetail = {
-
+                    onSeeDetail = { taskId ->
+                        navController.navigate(AppScreens.TaskDetail.route + taskId)
                     },
                     onAddExecution = { taskId ->
                         navController.navigate(AppScreens.AddEditExecution.route + taskId + "/true" + "/0")
@@ -131,6 +132,25 @@ fun AppNavigation(
                         navigationViewModel.onEvent(UiEvent.ShowSnackBar(it))
                     },
                     onClickBack = {
+                        navController.popBackStack()
+                    },
+                    modifier = modifier.fillMaxSize()
+                )
+            }
+            composable(
+                route = AppScreens.TaskDetail.route + "{taskId}",
+                arguments = listOf(
+                    navArgument(
+                        name = "taskId",
+                    ) {
+                        type = NavType.IntType
+                        defaultValue = 0
+                    },
+                )
+            ) {
+                TaskDetailScreen(
+                    windowSizeClass = windowSizeClass,
+                    onBack = {
                         navController.popBackStack()
                     },
                     modifier = modifier.fillMaxSize()
