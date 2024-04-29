@@ -4,12 +4,14 @@ import com.braiso_22.cozycave.feature_execution.domain.Execution
 import com.braiso_22.cozycave.feature_task.domain.TaskWithExecutions
 
 data class TaskDetailUiState(
+    val taskId: Int,
     val name: String = "Task",
     val completedExecutions: List<ExecutionUiState> = emptyList(),
     val unFinishedExecutions: List<ExecutionUiState> = emptyList(),
 )
 
 fun TaskWithExecutions.toUiState(): TaskDetailUiState = TaskDetailUiState(
+    taskId = this.task.id,
     name = this.task.name,
     completedExecutions = this.executions.filter {
         it.finished

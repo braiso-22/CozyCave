@@ -23,7 +23,7 @@ class TaskDetailViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(TaskDetailUiState())
+    private val _state = mutableStateOf(TaskDetailUiState(taskId = 0))
     val state: State<TaskDetailUiState> = _state
 
     private val _taskId = mutableIntStateOf(0)

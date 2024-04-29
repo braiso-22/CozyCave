@@ -10,11 +10,9 @@ import androidx.lifecycle.viewModelScope
 import com.braiso_22.cozycave.R
 import com.braiso_22.cozycave.feature_execution.domain.use_case.AddExecutionUseCase
 import com.braiso_22.cozycave.feature_execution.domain.use_case.GetExecutionByIdUseCase
-import com.braiso_22.cozycave.feature_execution.domain.use_case.GetExecutionsByRelatedIdUseCase
 import com.braiso_22.cozycave.feature_execution.presentation.add_edit_execution.state.AddEditExecutionUiState
 import com.braiso_22.cozycave.feature_execution.presentation.add_edit_execution.state.asExecution
 import com.braiso_22.cozycave.feature_execution.presentation.add_edit_execution.state.toUiState
-import com.braiso_22.cozycave.feature_task.presentation.add_edit_task.state.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -94,4 +92,3 @@ class AddEditExecutionViewModel @Inject constructor(
         data class SavedCloseScreen(val message: Int) : UiEvent()
     }
 }
-
