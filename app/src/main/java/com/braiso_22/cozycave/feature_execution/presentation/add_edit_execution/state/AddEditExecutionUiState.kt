@@ -7,6 +7,7 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 data class AddEditExecutionUiState(
+    val id: Int = 0,
     val startDate: String = "",
     val startTime: String = "",
     val endDate: String = "",
@@ -17,6 +18,7 @@ data class AddEditExecutionUiState(
 )
 
 fun Execution.toUiState() = AddEditExecutionUiState(
+    id = id,
     startDate = startDateTime.toFormatedDate(),
     startTime = startDateTime.toFormatedTime(),
     endDate = endDateTime.toFormatedDate(),
@@ -39,6 +41,7 @@ fun LocalDateTime.toFormatedTime(): String {
 
 fun AddEditExecutionUiState.asExecution(): Execution {
     return Execution(
+        id = id,
         startDateTime = LocalDateTime.of(
             LocalDate.parse(startDate, DateTimeFormatter.ofPattern("dd/MM/yyyy")),
             LocalTime.parse(startTime)

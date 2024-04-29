@@ -45,6 +45,7 @@ fun UnCompletedExecutionComponent(
 private fun UnCompletedExecutionComponentPreview() {
     UnCompletedExecutionComponent(
         state = ExecutionUiState(
+            id = 0,
             startDate = "22/03/2002",
             endDate = "22/03/2002",
             startHour = "01:00",

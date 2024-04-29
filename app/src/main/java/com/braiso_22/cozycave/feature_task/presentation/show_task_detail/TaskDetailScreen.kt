@@ -1,5 +1,6 @@
 package com.braiso_22.cozycave.feature_task.presentation.show_task_detail
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -27,6 +28,7 @@ import com.braiso_22.cozycave.feature_task.presentation.show_task_detail.state.T
 fun TaskDetailScreen(
     windowSizeClass: WindowSizeClass,
     onBack: () -> Unit,
+    onClickTaskExecution: (taskId: Int, executionId: Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: TaskDetailViewModel = hiltViewModel(),
 ) {
@@ -35,6 +37,7 @@ fun TaskDetailScreen(
         state = state,
         windowSizeClass = windowSizeClass,
         onBack = onBack,
+        onClickTaskExecution = onClickTaskExecution,
         modifier = modifier,
     )
 }
@@ -44,6 +47,7 @@ fun TaskDetailScreen(
 fun TaskDetailScreenContent(
     state: TaskDetailUiState,
     windowSizeClass: WindowSizeClass,
+    onClickTaskExecution: (Int, Int) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -113,6 +117,9 @@ fun TaskDetailScreenContent(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(16.dp)
+                        .clickable {
+                            onClickTaskExecution(state.taskId, execution.id)
+                        }
                 )
                 if (index != state.unFinishedExecutions.lastIndex)
                     HorizontalDivider(
@@ -139,6 +146,9 @@ fun TaskDetailScreenContent(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(8.dp)
+                        .clickable {
+                            onClickTaskExecution(state.taskId, execution.id)
+                        }
                 )
                 if (index != state.completedExecutions.lastIndex)
                     HorizontalDivider(
@@ -156,13 +166,16 @@ fun TaskDetailScreenContent(
 private fun TaskDetailScreenContentPreview(dpSize: DpSize) {
     val state = remember {
         mutableStateOf(
-            TaskDetailUiState(),
+            TaskDetailUiState(taskId = 0),
         )
     }
     TaskDetailScreenContent(
         state = state.value,
         windowSizeClass = WindowSizeClass.calculateFromSize(dpSize),
         onBack = {},
+        onClickTaskExecution = { taskId, executionId ->
+
+        },
         modifier = Modifier.fillMaxSize()
     )
 }

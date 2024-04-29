@@ -1,6 +1,5 @@
 package com.braiso_22.cozycave.feature_execution.presentation.add_edit_execution
 
-import android.widget.Space
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -83,7 +82,17 @@ fun AddEditExecutionScreenContent(
         modifier = modifier,
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.add_execution)) },
+                title = {
+                    Text(
+                        stringResource(
+                            if (state.isEditExecution) {
+                                R.string.edit_execution
+                            } else {
+                                R.string.add_execution
+                            }
+                        )
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary

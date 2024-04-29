@@ -13,4 +13,5 @@
     <string name="add_execution">Add execution</string>
     <string name="execution_saved_correctly">Execution saved correctly</string>
     <string name="task_detail">Task detail</string>
+    <string name="edit_execution">Edit execution</string>
 </resources>

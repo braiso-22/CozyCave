@@ -5,6 +5,7 @@ import com.braiso_22.cozycave.feature_execution.presentation.add_edit_execution.
 import com.braiso_22.cozycave.feature_execution.presentation.add_edit_execution.state.toFormatedTime
 
 data class ExecutionUiState(
+    val id: Int,
     val startDate: String,
     val endDate: String,
     val startHour: String,
@@ -12,6 +13,7 @@ data class ExecutionUiState(
 )
 
 fun Execution.toUiState() = ExecutionUiState(
+    id = this.id,
     startDate = this.startDateTime.toFormatedDate(),
     startHour = this.startDateTime.toFormatedTime(),
     endDate = this.endDateTime.toFormatedDate(),

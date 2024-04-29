@@ -1,7 +1,6 @@
 package com.braiso_22.cozycave.router
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -152,6 +151,9 @@ fun AppNavigation(
                     windowSizeClass = windowSizeClass,
                     onBack = {
                         navController.popBackStack()
+                    },
+                    onClickTaskExecution = { taskId, executionId ->
+                        navController.navigate(AppScreens.AddEditExecution.route + taskId + "/true/" + executionId)
                     },
                     modifier = modifier.fillMaxSize()
                 )
