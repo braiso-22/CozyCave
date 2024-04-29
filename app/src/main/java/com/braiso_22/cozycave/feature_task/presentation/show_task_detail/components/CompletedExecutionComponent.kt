@@ -71,6 +71,7 @@ fun CompletedExecutionComponent(
 private fun ExecutionComponentPreview() {
     CompletedExecutionComponent(
         state = ExecutionUiState(
+            id = 0,
             startDate = "00/00/0000",
             endDate = "00/07/0000",
             startHour = "00:00",
