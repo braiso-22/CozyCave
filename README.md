@@ -11,15 +11,16 @@ CozyCave is the app that helps you managing daily tasks and chores efficiently o
 
 <img src="https://github.com/braiso-22/CozyCave/assets/81094589/9568190a-2152-4614-9f7a-8d1411c158a7" style="height: 32rem; float: left;">
 
+<img src="https://github.com/braiso-22/CozyCave/assets/81094589/e3947b6c-4684-4242-90be-6e1c8a39cb51" style="height: 32rem; float: left;">
 
-
+<img src="https://github.com/braiso-22/CozyCave/assets/81094589/070eb6bb-6d65-4953-a3ee-a2e0503aa435" style="height: 32rem; float: left;">
 
 ## Features
 
 In the current stage of the app you can use 2 features, based on CRUD they are:
 
 - Tasks(CRU) can't delete for the moment
-- Executions(CR) can't update and delete for the moment
+- Executions(CRU) can't delete for the moment
 
 ## Tecnology and methodoloty
 
