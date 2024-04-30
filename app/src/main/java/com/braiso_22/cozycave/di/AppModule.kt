@@ -6,6 +6,7 @@ import com.braiso_22.cozycave.feature_execution.data.local.ExecutionRepositoryIm
 import com.braiso_22.cozycave.feature_execution.data.local.dao.ExecutionDao
 import com.braiso_22.cozycave.feature_execution.domain.ExecutionRepository
 import com.braiso_22.cozycave.feature_execution.domain.use_case.AddExecutionUseCase
+import com.braiso_22.cozycave.feature_execution.domain.use_case.DeleteExecutionUseCase
 import com.braiso_22.cozycave.feature_execution.domain.use_case.GetExecutionByIdUseCase
 import com.braiso_22.cozycave.feature_execution.domain.use_case.GetExecutionsByRelatedIdUseCase
 import com.braiso_22.cozycave.feature_task.data.TaskRepositoryImpl
@@ -111,5 +112,13 @@ object AppModule {
     ): GetTaskWithExecutionsUseCase = GetTaskWithExecutionsUseCase(
         getTaskByIdUseCase,
         getExecutionsByRelatedIdUseCase
+    )
+
+    @Provides
+    @Singleton
+    fun provideDeleteExecutionUseCase(
+        executionRepository: ExecutionRepository,
+    ): DeleteExecutionUseCase = DeleteExecutionUseCase(
+        executionRepository
     )
 }
