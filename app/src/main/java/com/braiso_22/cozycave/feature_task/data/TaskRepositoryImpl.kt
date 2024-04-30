@@ -32,7 +32,7 @@ class TaskRepositoryImpl(private val taskDao: TaskDao) : TaskRepository {
         taskDao.insertTask(task.toLocal())
     }
 
-    override suspend fun deleteTask(task: Task) {
-        TODO("Not yet implemented")
+    override suspend fun deleteTaskById(task: Task) {
+        
     }
 }
