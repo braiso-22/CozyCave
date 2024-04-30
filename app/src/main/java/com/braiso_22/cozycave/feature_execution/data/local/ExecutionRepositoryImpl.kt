@@ -39,6 +39,6 @@ class ExecutionRepositoryImpl(private val dao: ExecutionDao) : ExecutionReposito
     }
 
     override suspend fun deleteExecutionById(execution: Execution) {
-
+        dao.deleteExecutionById(execution.toLocal())
     }
 }
