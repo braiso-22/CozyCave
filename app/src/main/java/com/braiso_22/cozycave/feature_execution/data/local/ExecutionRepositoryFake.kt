@@ -30,7 +30,7 @@ class ExecutionRepositoryFake : ExecutionRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteExecutionById(execution: Execution) {
+    override suspend fun deleteExecution(execution: Execution) {
         TODO("Not yet implemented")
     }
 }
