@@ -16,4 +16,6 @@
     <string name="edit_execution">Edit execution</string>
     <string name="task_deleted">Task deleted</string>
     <string name="undo">Undo</string>
+    <string name="delete_this_execution">Delete this execution</string>
+    <string name="execution_deleted">Execution deleted</string>
 </resources>
