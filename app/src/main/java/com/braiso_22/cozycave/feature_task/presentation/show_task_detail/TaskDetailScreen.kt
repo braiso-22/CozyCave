@@ -7,21 +7,21 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.braiso_22.cozycave.R
-import com.braiso_22.cozycave.feature_task.presentation.show_task_detail.components.CompletedExecutionComponent
-import com.braiso_22.cozycave.feature_task.presentation.show_task_detail.components.UnCompletedExecutionComponent
+import com.braiso_22.cozycave.feature_task.presentation.show_task_detail.components.ExecutionComponent
 import com.braiso_22.cozycave.feature_task.presentation.show_task_detail.state.TaskDetailUiState
 
 @Composable
@@ -32,12 +32,36 @@ fun TaskDetailScreen(
     modifier: Modifier = Modifier,
     viewModel: TaskDetailViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
     val state = viewModel.state.value
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collect { event ->
+            when (event) {
+                TaskDetailViewModel.ExecutionUiEvent.ShowUiMessage -> {
+                    val result = snackbarHostState.showSnackbar(
+                        message = context.getString(R.string.execution_deleted),
+                        actionLabel = context.getString(R.string.undo)
+                    )
+                    if (result == SnackbarResult.ActionPerformed) {
+                        viewModel.onCancelDeletion()
+                    }
+                }
+            }
+        }
+    }
+
     TaskDetailScreenContent(
         state = state,
-        windowSizeClass = windowSizeClass,
+        snackbarHostState = snackbarHostState,
         onBack = onBack,
-        onClickTaskExecution = onClickTaskExecution,
+        onDeleteExecution = {
+            viewModel.onDeleteExecution(it)
+        },
+        onEditExecution = onClickTaskExecution,
         modifier = modifier,
     )
 }
@@ -46,8 +70,9 @@ fun TaskDetailScreen(
 @Composable
 fun TaskDetailScreenContent(
     state: TaskDetailUiState,
-    windowSizeClass: WindowSizeClass,
-    onClickTaskExecution: (Int, Int) -> Unit,
+    snackbarHostState: SnackbarHostState,
+    onEditExecution: (Int, Int) -> Unit,
+    onDeleteExecution: (Int) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -74,6 +99,9 @@ fun TaskDetailScreenContent(
                 },
             )
         },
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        }
     ) { padding ->
         LazyColumn(
             modifier = Modifier
@@ -112,13 +140,15 @@ fun TaskDetailScreenContent(
                 }
             }
             itemsIndexed(state.unFinishedExecutions) { index, execution ->
-                UnCompletedExecutionComponent(
+                ExecutionComponent(
                     state = execution,
+                    onDelete = onDeleteExecution,
+                    onEdit = { onEditExecution(state.taskId, execution.id) },
+                    canModify = true,
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(16.dp)
                         .clickable {
-                            onClickTaskExecution(state.taskId, execution.id)
+
                         }
                 )
                 if (index != state.unFinishedExecutions.lastIndex)
@@ -141,13 +171,15 @@ fun TaskDetailScreenContent(
             }
 
             itemsIndexed(state.completedExecutions) { index, execution ->
-                CompletedExecutionComponent(
+                ExecutionComponent(
                     state = execution,
+                    onDelete = onDeleteExecution,
+                    onEdit = { onEditExecution(state.taskId, execution.id) },
+                    canModify = true,
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(8.dp)
                         .clickable {
-                            onClickTaskExecution(state.taskId, execution.id)
+
                         }
                 )
                 if (index != state.completedExecutions.lastIndex)
@@ -161,7 +193,6 @@ fun TaskDetailScreenContent(
     }
 }
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 private fun TaskDetailScreenContentPreview(dpSize: DpSize) {
     val state = remember {
@@ -171,9 +202,10 @@ private fun TaskDetailScreenContentPreview(dpSize: DpSize) {
     }
     TaskDetailScreenContent(
         state = state.value,
-        windowSizeClass = WindowSizeClass.calculateFromSize(dpSize),
+        snackbarHostState = SnackbarHostState(),
         onBack = {},
-        onClickTaskExecution = { taskId, executionId ->
+        onDeleteExecution = {},
+        onEditExecution = { taskId, executionId ->
 
         },
         modifier = Modifier.fillMaxSize()

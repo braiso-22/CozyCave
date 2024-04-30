@@ -13,5 +13,5 @@ interface ExecutionRepository {
 
     suspend fun getExecutionById(id: Int): Execution
 
-    suspend fun deleteExecutionById(execution: Execution)
+    suspend fun deleteExecution(execution: Execution)
 }
