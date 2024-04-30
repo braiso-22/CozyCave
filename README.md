@@ -19,8 +19,8 @@ CozyCave is the app that helps you managing daily tasks and chores efficiently o
 
 In the current stage of the app you can use 2 features, based on CRUD they are:
 
-- Tasks(CRU) can't delete for the moment
-- Executions(CRU) can't delete for the moment
+- Tasks(CRUD)
+- Executions(CRUD)
 
 ## Tecnology and methodoloty
 
