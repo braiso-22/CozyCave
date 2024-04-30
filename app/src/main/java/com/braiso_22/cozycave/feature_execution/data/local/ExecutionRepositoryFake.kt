@@ -29,4 +29,8 @@ class ExecutionRepositoryFake : ExecutionRepository {
     override suspend fun getExecutionById(id: Int): Execution {
         TODO("Not yet implemented")
     }
+
+    override suspend fun deleteExecutionById(execution: Execution) {
+        TODO("Not yet implemented")
+    }
 }
