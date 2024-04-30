@@ -33,6 +33,6 @@ class TaskRepositoryImpl(private val taskDao: TaskDao) : TaskRepository {
     }
 
     override suspend fun deleteTaskById(task: Task) {
-        
+        taskDao.deleteTask(task.toLocal())
     }
 }
