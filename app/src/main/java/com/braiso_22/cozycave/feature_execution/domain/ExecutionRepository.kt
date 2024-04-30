@@ -7,18 +7,11 @@ import kotlinx.coroutines.flow.Flow
  * It is used to abstract the data source from the domain layer.
  */
 interface ExecutionRepository {
-    /**
-     * Adds an [Execution] to the data source.
-     */
     suspend fun addExecution(execution: Execution)
 
-    /**
-     * Returns a [Flow] of all the [Execution]s related to a specific id.
-     */
     fun getExecutionsByRelatedId(id: Int): Flow<List<Execution>>
 
-    /**
-     * Returns an [Execution] by its id.
-     */
     suspend fun getExecutionById(id: Int): Execution
+
+    suspend fun deleteExecution(execution: Execution)
 }

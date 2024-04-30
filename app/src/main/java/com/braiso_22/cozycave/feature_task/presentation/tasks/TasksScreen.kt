@@ -12,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
@@ -32,6 +33,7 @@ fun TasksScreen(
     modifier: Modifier = Modifier,
     viewModel: TasksViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
     val state = viewModel.state.value
     val snackbarHostState = remember {
         SnackbarHostState()
@@ -42,8 +44,8 @@ fun TasksScreen(
             when (it) {
                 is TasksViewModel.TaskUiEvent.ShowUndoDeletion -> {
                     val result = snackbarHostState.showSnackbar(
-                        message = "Task deleted",
-                        actionLabel = "Undo"
+                        message = context.getString(R.string.task_deleted),
+                        actionLabel = context.getString(R.string.undo)
                     )
                     if (result == SnackbarResult.ActionPerformed) {
                         viewModel.onEvent(TasksEvent.UndoDeletion)
@@ -127,7 +129,7 @@ fun TasksScreenContent(
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
-fun TasksScreenContentPreview(dpSize: DpSize) {
+private fun TasksScreenContentPreview(dpSize: DpSize) {
     val tasks = remember {
         mutableStateListOf(
             TaskUiState(
@@ -162,12 +164,12 @@ fun TasksScreenContentPreview(dpSize: DpSize) {
 
 @Preview(showBackground = true, widthDp = 360, heightDp = 720)
 @Composable
-fun TasksScreenContentVerticalPreview() {
+private fun TasksScreenContentVerticalPreview() {
     TasksScreenContentPreview(DpSize(360.dp, 720.dp))
 }
 
 @Preview(showBackground = true, widthDp = 720, heightDp = 360)
 @Composable
-fun TasksScreenContentHorizontalPreview() {
+private fun TasksScreenContentHorizontalPreview() {
     TasksScreenContentPreview(DpSize(720.dp, 360.dp))
 }

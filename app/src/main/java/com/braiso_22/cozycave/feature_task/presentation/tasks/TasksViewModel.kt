@@ -50,10 +50,10 @@ class TasksViewModel @Inject constructor(
         when (event) {
             is Delete -> {
                 viewModelScope.launch {
-                    val task = getTaskByIdUseCase(event.id) ?: return@launch
+                    val task = getTaskByIdUseCase(event.id)
                     lastDeletedTask = task
                     deleteTasksUseCase(task)
-
+                    _eventFlow.emit(TaskUiEvent.ShowUndoDeletion)
                 }
             }
 
@@ -67,6 +67,6 @@ class TasksViewModel @Inject constructor(
     }
 
     sealed class TaskUiEvent {
-        data class ShowUndoDeletion(val id: Int) : TaskUiEvent()
+        data object ShowUndoDeletion : TaskUiEvent()
     }
 }

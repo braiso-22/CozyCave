@@ -1,10 +1,8 @@
 package com.braiso_22.cozycave.feature_execution.data.local.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.braiso_22.cozycave.feature_execution.data.local.entities.LocalExecution
+import com.braiso_22.cozycave.feature_execution.domain.Execution
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -20,4 +18,7 @@ interface ExecutionDao {
 
     @Query("SELECT * FROM LocalExecution WHERE id = :id LIMIT 1")
     suspend fun getExecutionById(id: Int): LocalExecution?
+
+    @Delete
+    suspend fun deleteExecutionById(execution: LocalExecution)
 }
